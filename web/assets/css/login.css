@@ -1,0 +1,311 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    list-style: none;
+    scroll-behavior: smooth;
+}
+
+:root{
+    --main-color: #c62222;
+    --sec-color: #ffe1e1;
+    --border-color: #cfb1b1;
+    --third-color: #fff2f2;;
+    --star-color:rgba(252, 125, 40, 0.986);
+    --text-color: #252429;
+    --bg-color: #fffefb;
+    --rr-color: #ffa50a;
+    --other-color: #95949a;
+    --bb-color: #fff2de;
+
+    --big-font: 4.4rem;
+    --h2-font: 3rem;
+    --p-font: 1rem;
+}
+
+.logo_container {
+  font-size: 32px; 
+  color: var(--big-font);
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  font-weight: bold;
+  letter-spacing: -1px;
+  margin-top: 12px;
+}
+
+.logo_container img {
+  width: 100px;
+  max-width: 100%;
+  height: auto;
+  margin-right: 4px;
+  margin-left: -35px;
+}
+
+.logo_container span{
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  bottom: 39px;
+}
+
+#logo_title{
+  color: #c62222;
+}
+
+body{
+    background: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    width: 100%;
+}
+
+header{
+  top: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffe1e1;
+  box-shadow: 0 0.4rem 30rem rgba(0,0,0,0.1);
+  padding: 2px 4%;
+  transition: all ease .52s;
+  height: 120px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+section{
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container{
+  position: relative;
+  max-width: 460px;
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  margin: 0 20px;
+  transition: height 0.2s ease;
+}
+
+.container .forms{
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.container .form{
+  display: none;
+}
+
+.container .form.active {
+  display: block;
+  width: 100%;
+  padding: 35px;
+}
+
+.container .form.vendor.active{
+  max-height: 720px;
+}
+
+.container .login {
+  height: 480px;
+}
+
+.container .signup {
+  height: 600px;
+}
+
+.container .vendor {
+  height: auto;
+}
+
+.container .form .title{
+  position: relative;
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.form .title::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  background-color: #c62222;
+  border-radius: 25px;
+}
+
+.form .input-field{
+  position: relative;
+  height: 50px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.input-field input{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  padding: 0 35px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  border-bottom: 2px solid #ccc;
+  border-top: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.input-field input:is(:focus, :valid){
+  border-bottom-color: #c62222;
+}
+
+.input-field i{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 23px;
+  transition: all 0.2s ease;
+}
+
+.input-field input:is(:focus, :valid) ~ i{
+  color: #c62222;
+}
+
+.input-field i.icon{
+  left: 0;
+}
+
+.input-field i.showHidePw{
+  right: 0;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.form .checkbox-text{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.checkbox-text .checkbox-content{
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-content input{
+  margin-right: 10px;
+  accent-color: #c62222;
+}
+
+.form .text{
+  color: #333;
+  font-size: 14px;
+}
+
+.form a.text{
+  color: #c62222;
+  text-decoration: none;
+}
+.form a:hover{
+  text-decoration: underline;
+}
+
+.form .button{
+  margin-top: 25px;
+}
+
+.form .button input{
+  border: none;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: #c62222;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button input:hover{
+  background-color: #ac2121;
+}
+
+.form .login-signup{
+  margin: 30px;
+  text-align: center;
+}
+
+.switch-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.halal-icon {
+  width: 30px; 
+  height: 30px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Login Page</title>
+
+        <!---======css=====-->
+        <link rel="stylesheet" type="text/css" href="/web/assets/css/login.css">
+        
+        <!--===icons link--==-->
+        <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+
+        <!--===google fonts link--==-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <script>
+            window.onload = function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const error = urlParams.get('error');
+                if (error) {
+                    alert(error);
+                }
+            };
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            
+            if (error) {
+                document.getElementById("error_message").innerText = error;
+            }
+        </script>
+    </head>
+    <body>
+        <!--===header--==-->
+        <header>
+            <div class="logo_container">
+              <a href="/index.html">
+                <img src="/web/assets/img/logo.png" alt="Logo">
+                <span id="logo_title">Penang Local Food</span>
+              </a>
+            </div>
+        </header>
+
+        <!--===login page--==-->
+        <section class="login_page">
+          <div class="container">
+            <div class="forms">
+                <div class="form login">
+                    <span class="title">Login</span>
+                    <form method="post" action="/auth/controllers/login.php">
+                        <div class="input-field">
+                            <input type="text" name="login_email" placeholder="Enter your email address" required>
+                            <i class="uil uil-envelope icon"></i>
+                        </div>
+                        <div class="input-field">
+                            <input type="password" name="login_password" class="password" placeholder="Enter your password" required>
+                            <i class="uil uil-lock icon"></i>
+                            <i class="uil uil-eye-slash showHidePw"></i>
+                        </div>
+    
+                        <div class="checkbox-text">
+                            <div class="checkbox-content">
+                                <input type="checkbox" id="logCheck">
+                                <label for="logCheck" class="text">Remember me</label>
+                            </div>
+                            
+                            <a href="#" class="text">Forgot password?</a>
+                        </div>
+    
+                        <div class="input-field button">
+                            <input type="submit" name="login_submit" value="Login">
+                        </div>
+                    </form>
+    
+                    <div class="login-signup">
+                        <span class="text">Not a member?
+                            <a href="#" class="text signup-link">Signup Now</a>
+                        </span><br>
+
+                        <span class="text">You are a hawker?
+                            <a href="#" class="text vendor-signup-link">Register Here</a>
+                        </span>
+                    </div>
+                </div>
+    
+                <!--===user register form--==-->
+                <div class="form signup">
+                    <span class="title">User Registration</span>
+    
+                    <form method="post" action="/auth/controllers/user_register.php">
+                        <div class="input-field">
+                            <input type="text" name="register_username" placeholder="Enter your username" required>
+                            <i class="uil uil-user"></i>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" name="register_email" placeholder="Enter your email address" required>
+                            <i class="uil uil-envelope icon"></i>
+                        </div>
+                        <div class="input-field">
+                            <input type="password" name="register_password" class="password" placeholder="Create a password" required>
+                            <i class="uil uil-lock icon"></i>
+                        </div>
+                        <div class="input-field">
+                            <input type="password" name="confirm_password" class="password" placeholder="Confirm a password" required>
+                            <i class="uil uil-lock icon"></i>
+                            <i class="uil uil-eye-slash showHidePw"></i>
+                        </div>
+    
+                        <div class="input-field button">
+                            <input type="submit" class="signup_verify" name="register_user_submit" value="Sign Up">
+                        </div>
+                    </form>
+                        <div class="login-signup">
+                        <span class="text">Already a member?
+                            <a href="#" class="text login-link">Login Now</a>
+                        </span>
+                      
+                     </div>
+                    </div>
+
+                <!--===email verification--==-->
+                <div class="form email_verify">
+                    <span class="title">Email Verification</span>
+                    <form method="post" action="/auth/controllers/user_register.php">
+                        <div class="input-field">
+                            <input type="text" name="submitted_code" placeholder="Enter email verification code" required>
+                            <i class='bx bx-badge-check'></i>
+                        </div>
+                        <div class="input-field button">
+                            <input type="submit" name="verify_code_submit" value="Sign Up">
+                        </div>
+                    </form>
+                </div>    
+
+                <!--===vendor register form--==-->
+                <div class="form vendor">
+                    <span class="title">Vendor Registration</span>
+                    <form method="post" action="/auth/controllers/vendor_register.php">
+                        <div class="input-field">
+                            <input type="text" name="vendor_username" placeholder="Enter your username" required>
+                            <i class="uil uil-user"></i>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" name="vendor_phone" placeholder="Enter your phone number" required>
+                            <i class="uil uil-phone"></i>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" name="vendor_email" placeholder="Enter your email address" required>
+                            <i class="uil uil-envelope icon"></i>
+                        </div>
+                        
+                        <div class="input-field">
+                            <input type="text" name="vendor_name" placeholder="Vendor/Restaurant Name" required>
+                            <i class="uil uil-restaurant"></i>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" name="location" placeholder="Location" required>
+                            <i class="uil uil-location-point icon"></i>
+                        </div>
+                        <div class="input-field">
+                            <input type="password" name="vendor_password" class="password" placeholder="Create a password" required>
+                            <i class="uil uil-lock icon"></i>
+                            <i class="uil uil-eye-slash showHidePw"></i>
+                        </div>
+                        <div class="input-field button">
+                            <input type="submit" name="register_vendor_submit" value="Sign Up">
+                        </div>
+                
+                    <div class="login-signup">
+                        <span class="text">Already register?
+                            <a href="#" class="text login-link" id="loginButton">Login Now</a>
+                        </span>
+                    </div>
+                  </form>
+                </div>
+                
+             </div>
+          </div>  
+        </section>
+    
+        <!--===js file link--==-->
+        <script src="/web/assets/js/login.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            $(".signup_verify").click(function(e) {
+                e.preventDefault();
+                
+                var username = $("input[name='register_username']").val();
+                var email = $("input[name='register_email']").val();
+                var password = $("input[name='register_password']").val();
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/auth/controllers/email_verify.php",
+                    data: { register_username: username, register_email: email, register_password: password, register_user_submit: true },
+                    success: function(response) {
+                        alert(response);  // replace this with a more user-friendly notification
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert("Something went wrong. Please try again later.");
+                    }
+                });
+            });
+        });
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const successMessage = urlParams.get('success');
+            
+            if (successMessage) {
+                alert('Your account has been successfully registered!');
+            }
+        }
+        </script>
+    </body>
+</html>
