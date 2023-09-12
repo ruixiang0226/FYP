@@ -26,7 +26,7 @@
         <section class="view_page">
             <header>
                 <div class="logo_container">
-                    <img src="/FYP/vendorpage/img/logo.png" alt="Logo">
+                    <img src="/vendorpage/img/logo.png" alt="Logo">
                     <span>Penang Local Food</span>
                 </div>
             </header>
@@ -37,7 +37,7 @@
                     <div class="info_wrapper">
                         <nav class="return_link">
                             <ul>
-                                <li><a id="homepage_link" href="/FYP/homepage.html">homepage</a></li>
+                                <li><a id="homepage_link" href="/homepage.html">homepage</a></li>
                                 <li id="vendorname">Sister Curry Mee</li>
                             </ul>
                           </nav>
@@ -99,7 +99,7 @@
                         <div id="main-carousel" class="splide">
                             <div class="splide__track">
                                 <ul class="splide__list">
-                                    <li class="splide__slide"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/11.jpg" alt=""></li><li class="splide__slide"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/download.jpg" alt=""></li><li class="splide__slide"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee2.jpg.webp" alt=""></li><li class="splide__slide"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee3.jpg.webp" alt=""></li><li class="splide__slide"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee4.jpg.webp" alt=""></li>
+                                    <li class="splide__slide"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/11.jpg" alt=""></li><li class="splide__slide"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/download.jpg" alt=""></li><li class="splide__slide"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee2.jpg.webp" alt=""></li><li class="splide__slide"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee3.jpg.webp" alt=""></li><li class="splide__slide"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee4.jpg.webp" alt=""></li>
                                 </ul>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                             <div id="thumbnail-carousel" class="splide">
                                 <div class="splide__track">
                                     <ul class="splide__list">
-                                        <li class="splide__slide"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/11.jpg" alt=""></li><li class="splide__slide"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/download.jpg" alt=""></li><li class="splide__slide"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee2.jpg.webp" alt=""></li><li class="splide__slide"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee3.jpg.webp" alt=""></li><li class="splide__slide"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee4.jpg.webp" alt=""></li>
+                                        <li class="splide__slide"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/11.jpg" alt=""></li><li class="splide__slide"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/download.jpg" alt=""></li><li class="splide__slide"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee2.jpg.webp" alt=""></li><li class="splide__slide"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee3.jpg.webp" alt=""></li><li class="splide__slide"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/vendor_img/sistercurrymee4.jpg.webp" alt=""></li>
                                     </ul>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                 <div class="menu_container">
                     <div class="view_menu">
                         <div class="menu_scrollbar" id="menu-scroll">
-                            <div class="menu_box"><div class="menu_detail"><p class="not">Food Name: Curry Mee</p><p class="not">Food Price: 7</p><div class="menu_img"><img src="/FYP/vendorpage/img_vendor/vendorpage_Sister Curry Mee/menu_img/download.jpg" alt=""></div></div></div>
+                            <div class="menu_box"><div class="menu_detail"><p class="not">Food Name: Curry Mee</p><p class="not">Food Price: 7</p><div class="menu_img"><img src="/vendorpage/img_vendor/vendorpage_Sister Curry Mee/menu_img/download.jpg" alt=""></div></div></div>
                         </div>
                     </div>
                 </div>
@@ -213,8 +213,8 @@
                 </div>                               
             </div>
         </section>
-        <script src="/FYP/vendorpage/js/splide.min.js"></script>
-        <script src="/FYP/vendorpage/js/vendorpage.js"></script>
+        <script src="/vendorpage/js/splide.min.js"></script>
+        <script src="/vendorpage/js/vendorpage.js"></script>
         <script id="opening_hours_data" type="application/json">
             {"monday":{"open":"07:00","close":"13:00"},"tuesday":{"open":"Closed","close":"Closed"},"wednesday":{"open":"07:00","close":"13:00"},"thursday":{"open":"07:00","close":"13:00"},"friday":{"open":"07:00","close":"13:00"},"saturday":{"open":"07:00","close":"13:00"},"sunday":{"open":"07:00","close":"13:00"}}
         </script>
@@ -249,16 +249,16 @@
                 let userType = getCookie('user_type'); 
                 
                 if (userId && userType === 'user') {
-                    homepageLink.href = "/FYP/user/user_account.php";
+                    homepageLink.href = "/user/user_account.php";
                 } 
                 else if (vendorId && userType === 'vendor') {
-                    homepageLink.href = "/FYP/vendor/vendor_account.php";
+                    homepageLink.href = "/vendor/vendor_account.php";
                 } 
                 else if (adminId && userType === 'admin') {
-                    homepageLink.href = "/FYP/admin/admin.php";
+                    homepageLink.href = "/admin/admin.php";
                 } 
                 else {
-                    homepageLink.href = "/FYP/index.html";
+                    homepageLink.href = "/index.html";
                 }
             });
         </script>
