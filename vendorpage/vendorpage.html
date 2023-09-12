@@ -246,13 +246,13 @@
                 let userType = getCookie('user_type'); 
                 
                 if (userId && userType === 'user') {
-                    homepageLink.href = "/FYP/user/user_account.php";
+                    homepageLink.href = "/user/user_account.php";
                 } 
                 else if (vendorId && userType === 'vendor') {
-                    homepageLink.href = "/FYP/vendor/vendor_account.php";
+                    homepageLink.href = "/vendor/vendor_account.php";
                 } 
                 else if (adminId && userType === 'admin') {
-                    homepageLink.href = "/FYP/admin/admin.php";
+                    homepageLink.href = "/admin/admin.php";
                 } 
                 else {
                     homepageLink.href = "/index.html";
