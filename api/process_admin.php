@@ -109,7 +109,7 @@ if (isset($_FILES['another_picture'])) {
         $other_photos_display_paths[] = $display_path;
     }
 }
-$other_photos_names_json = json_encode($other_photos_paths)
+$other_photos_names_json = json_encode($other_photos_paths);
 
 // image slider display
 $image_slider_html = '';
