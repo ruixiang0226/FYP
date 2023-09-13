@@ -1,11 +1,7 @@
 <?php
 session_start();
 
-$mysqli = new mysqli("localhost", "root", "", "penang_local_food");
-
-if ($mysqli->connect_error) {
-    die("Failed to connect to the database: " . $mysqli->connect_error);
-}
+include 'config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

@@ -1,5 +1,5 @@
 <?php
-include '/connection/db_connection.php';
+include 'config.php';
 
 $sql = "SELECT vendor_id, vendor_name, food_type, address, phone_number, dining_option, status FROM vendorpages WHERE status='pending'";
 $result = $conn->query($sql);

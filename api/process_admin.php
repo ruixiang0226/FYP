@@ -1,5 +1,5 @@
 <?php
-include '/connection/db_connection.php';
+include 'config.php';
 
 // detect admin id or vendor id
 $admin_id = $_GET['admin_id'] ?? null;

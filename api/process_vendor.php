@@ -1,5 +1,5 @@
 <?php
-include '/connection/db_connection.php';
+include 'config.php';
 
 // detect vendor id
 $vendor_id = $_GET['vendor_id'] ?? null;

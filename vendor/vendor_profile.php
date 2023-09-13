@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$mysqli = new mysqli("localhost", "root", "", "penang_local_food");
+include 'config.php';
 
 if (!isset($_COOKIE['vendor_id'])) { 
     header("Location: /auth/view/login.html");

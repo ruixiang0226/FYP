@@ -1,11 +1,7 @@
 <?php
 session_start();
 
-$mysqli = new mysqli("localhost", "root", "", "penang_local_food");
-
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
-}
+include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["decision_acc"])) {
     $decision = $_POST["decision_acc"];

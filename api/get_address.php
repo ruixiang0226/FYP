@@ -1,10 +1,7 @@
 <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "penang_local_food");
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'config.php';
 
 $query = $_GET['query'];
 

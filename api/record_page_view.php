@@ -1,11 +1,7 @@
 <?php
 session_start();
 
-$mysqli = new mysqli("localhost", "root", "", "penang_local_food");
-
-if ($mysqli->connect_error) {
-    die("Failed to connect to the database: " . $mysqli->connect_error);
-}
+include 'config.php';
 
 $user_id = $_POST['user_id'] ?? null;
 $vendor_id = $_POST['vendor_id'] ?? null;
