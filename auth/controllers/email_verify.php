@@ -10,10 +10,9 @@ if ($mysqli->connect_error) {
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
         
-require '/FYP/PHPMailer/src/Exception.php';
-require '/FYP/PHPMailer/src/PHPMailer.php';
-require '/FYP/PHPMailer/src/SMTP.php';
-
+require '../../PHPMailer/src/Exception.php';
+require '../../PHPMailer/src/PHPMailer.php';
+require '../../PHPMailer/src/SMTP.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["register_user_submit"])) {
     $username = $_POST["register_username"]; 
