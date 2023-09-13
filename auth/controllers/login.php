@@ -1,11 +1,17 @@
 <?php
 session_start();
 
-require_once('database_key.php');
+require_once(__DIR__ . '/database_key.php');
 
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+}
+
+if (file_exists('database_key.php')) {
+    echo 'File exists';
+} else {
+    echo 'File does not exist';
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
