@@ -1,7 +1,13 @@
 <?php
 session_start();
 
-include 'config.php';
+include __DIR__ . '/config.php';
+
+if (file_exists(__DIR__ . '/config.php')) {
+    include __DIR__ . '/config.php';
+} else {
+    die('config.php not found');
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
     $email = $_POST["login_email"];
