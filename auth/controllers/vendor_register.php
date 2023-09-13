@@ -1,7 +1,11 @@
 <?php
 session_start();
 
-require "config_mysqli.php";
+$mysqli = new mysqli('ilzyz0heng1bygi8.chr7pe7iynqr.eu-west-1.rds.amazonaws.com', 'wdzd5d37qxl2zori', 'gnvgq0h5y6vmdhqr', 'p40t91itwyub22ct');
+
+if ($mysqli->connect_error) {
+    die("Failed to connect to the database: " . $mysqli->connect_error);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["register_vendor_submit"])) {

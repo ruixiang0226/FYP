@@ -1,7 +1,6 @@
 <?php
 session_start();
-
-include "config.php";
+$conn = new mysqli("ilzyz0heng1bygi8.chr7pe7iynqr.eu-west-1.rds.amazonaws.com", "wdzd5d37qxl2zori", "gnvgq0h5y6vmdhqr", "p40t91itwyub22ct");
 
 $vendor_name = $_GET['vendor_name'];
 

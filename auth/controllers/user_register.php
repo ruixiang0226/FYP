@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$mysqli = new mysqli("localhost", "root", "", "penang_local_food");
+$mysqli = new mysqli('ilzyz0heng1bygi8.chr7pe7iynqr.eu-west-1.rds.amazonaws.com', 'wdzd5d37qxl2zori', 'gnvgq0h5y6vmdhqr', 'p40t91itwyub22ct');
 
 if ($mysqli->connect_error) {
-    die("Failed to connect to the database: " . $mysqli->connect_error);
+    die("Connection failed: " . $mysqli->connect_error);
 }
 
 use PHPMailer\PHPMailer\PHPMailer;

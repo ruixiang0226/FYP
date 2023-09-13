@@ -1,6 +1,9 @@
 <?php
+$conn = new mysqli("ilzyz0heng1bygi8.chr7pe7iynqr.eu-west-1.rds.amazonaws.com", "wdzd5d37qxl2zori", "gnvgq0h5y6vmdhqr", "p40t91itwyub22ct");
 
-include "config.php";
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 $vendorpage_id = $_POST["vendorpage_id"];
 $user_id = $_POST["user_id"];
