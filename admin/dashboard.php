@@ -1,5 +1,5 @@
 <?php
-include '/config.php';
+$conn = new mysqli('ilzyz0heng1bygi8.chr7pe7iynqr.eu-west-1.rds.amazonaws.com', 'wdzd5d37qxl2zori', 'gnvgq0h5y6vmdhqr', 'p40t91itwyub22ct');
 
 $sql = "SELECT vendor_id, vendor_name, food_type, address, phone_number, dining_option, status FROM vendorpages WHERE status='pending'";
 $result = $conn->query($sql);
