@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"  && isset($_POST["feedback_submit"])) {
         $vendorID = $_SESSION['vendor_id'];
         $stmt = $mysqli->prepare("INSERT INTO feedback (vendor_id, feedback_content, feedback_at) VALUES (?, ?, ?)");
         $stmt->bind_param("iss", $vendorID, $feedbackContent, $timestamp);
-        $redirectPage = "/vendor/vendor_profile.php";
+        $redirectPage = "/vendor_acc/vendor_profile.php";
     } 
     
     if ($stmt->execute()) {

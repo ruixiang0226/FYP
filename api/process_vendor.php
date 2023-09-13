@@ -125,7 +125,7 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("ssssssssssssss", $vendor_id, $vendor_name, $food_types_string, $address, $phone_number, $opening_hours_serialized, $dining_option, $service_options_string, $main_photo_name, $other_photos_names_json, $menu_food_names_json, $menu_food_prices_json, $menu_img_paths_json , $status);
 
 if ($stmt->execute()) {
-    header("Location: /vendor/waiting_room.php");
+    header("Location: /vendor_acc/waiting_room.php");
 } else {
     die("Error: " . $stmt->error);
 }

@@ -47,10 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
                 setcookie("user_type", "vendor", 0, "/");
                 setcookie("vendor_id", $row["id"], 0, "/");
 
-                header("Location: /vendor/vendor_account.php");
+                header("Location: /vendor_acc/vendor_account.php");
                 exit();
             } else {
-                header("Location: /vendor/waiting_approval.php");
+                header("Location: /vendor_acc/waiting_approval.php");
                 exit();
             }
         } else {
