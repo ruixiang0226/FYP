@@ -1,12 +1,10 @@
 <?php
 session_start();
 
-include __DIR__ . '/config.php';
+$mysqli = new mysqli("ilzyz0heng1bygi8.chr7pe7iynqr.eu-west-1.rds.amazonaws.com", "wdzd5d37qxl2zori", "gnvgq0h5y6vmdhqr", "p40t91itwyub22ct");
 
-if (file_exists(__DIR__ . '/config.php')) {
-    include __DIR__ . '/config.php';
-} else {
-    die('config.php not found');
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
