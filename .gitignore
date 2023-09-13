@@ -1,2 +1,3 @@
+# Ignore config.php file
 config.php
 config_mysqli.php

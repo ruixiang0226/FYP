@@ -1,7 +1,12 @@
 <?php
 session_start();
 
-require('config_mysqli.php');
+require_once('config.php');
+
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
     $email = $_POST["login_email"];
