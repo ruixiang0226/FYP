@@ -69,7 +69,7 @@ $selected_services_ordered = array_intersect($service_order, $selected_services)
 $service_options_string = implode(' / ', $selected_services);
 
 // img_vendor file
-$baseDir = '../vendorpage/img_vendor'; 
+$baseDir = 'C:/Users/This/Documents/GitHub/FYP/vendorpage/img_vendor'; 
 $vendor_dir = $baseDir . DIRECTORY_SEPARATOR . "vendorpage_" . $vendor_name;
 $vendor_img_dir = $vendor_dir . DIRECTORY_SEPARATOR . "vendor_img";
 $menu_img_dir = $vendor_dir . DIRECTORY_SEPARATOR . "menu_img";
@@ -166,7 +166,7 @@ $menu_img_paths_str = implode(", ", $menu_imgs);
 $menu_img_paths_json = json_encode($menu_imgs);
 
 // Read the template files
-$html_template = file_get_contents('../vendorpage/vendorpage.html');
+$html_template = file_get_contents('/vendorpage/vendorpage.html');
 
 // Replace placeholders with actual data
 $html_template = str_replace('{{vendor_name}}', $vendor_name, $html_template);
@@ -183,7 +183,7 @@ $html_template = str_replace('{{thumb_img}}', $image_slider_html, $html_template
 $html_template = str_replace('{{menu}}', $menu_html, $html_template);
 
 // Save the new HTML file
-$vendor_page_path = "../vendorpage/{$vendor_name}.html";
+$vendor_page_path = "C:/Users/This/Documents/GitHub/FYP/vendorpage/{$vendor_name}.html";
 file_put_contents($vendor_page_path, $html_template);
 
 $opening_hours_serialized = serialize($opening_hours);
@@ -198,10 +198,10 @@ if ($stmt->execute()) {
     $vendorpage_id = $conn->insert_id;
     
     $filePaths = [
-        '../index.html',
-        '../user/user_account.php',
-        '../vendor_acc/vendor_account.php',
-        '../admin/admin.php'
+        'C:/Users/This/Documents/GitHub/FYP/index.html',
+        'C:/Users/This/Documents/GitHub/FYP/user/user_account.php',
+        'C:/Users/This/Documents/GitHub/FYP/vendor_acc/vendor_account.php',
+        'C:/Users/This/Documents/GitHub/FYP/admin/admin.php'
     ];    
 
     foreach ($filePaths as $homepageFilePath) {
