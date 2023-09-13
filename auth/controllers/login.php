@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once('config.php');
+require_once('config_mysqli.php');
 
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if ($conn->connect_error) {
