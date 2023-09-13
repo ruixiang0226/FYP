@@ -69,7 +69,7 @@ $selected_services_ordered = array_intersect($service_order, $selected_services)
 $service_options_string = implode(' / ', $selected_services);
 
 // img_vendor file
-$baseDir = __DIR__ . '/../vendorpage/img_vendor'; 
+$baseDir = '../vendorpage/img_vendor'; 
 $vendor_dir = $baseDir . DIRECTORY_SEPARATOR . "vendorpage_" . $vendor_name;
 $vendor_img_dir = $vendor_dir . DIRECTORY_SEPARATOR . "vendor_img";
 $menu_img_dir = $vendor_dir . DIRECTORY_SEPARATOR . "menu_img";
@@ -183,8 +183,7 @@ $html_template = str_replace('{{thumb_img}}', $image_slider_html, $html_template
 $html_template = str_replace('{{menu}}', $menu_html, $html_template);
 
 // Save the new HTML file
-$base_path = "C:/Users/This/Documents/GitHub/FYP/vendorpage";
-$vendor_page_path = "{$base_path}/{$vendor_name}.html";
+$vendor_page_path = "/../vendorpage/{$vendor_name}.html";
 file_put_contents($vendor_page_path, $html_template);
 
 $opening_hours_serialized = serialize($opening_hours);
@@ -198,12 +197,11 @@ $stmt->bind_param("sssssssssssss", $vendor_name, $food_types_string, $address, $
 if ($stmt->execute()) {
     $vendorpage_id = $conn->insert_id;
     
-    $base_path1 = "C:/Users/This/Documents/GitHub/FYP/";
     $filePaths = [
-        $base_path1 . '/index.html',
-        $base_path1 . '/user/user_account.php',
-        $base_path1 . '/vendor_acc/vendor_account.php',
-        $base_path1 . '/admin/admin.php'
+        '/index.html',
+        '/user/user_account.php',
+        '/vendor_acc/vendor_account.php',
+        '/admin/admin.php'
     ];    
 
     foreach ($filePaths as $homepageFilePath) {
