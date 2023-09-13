@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'config.php';
+include '/config.php';
 
 if (!isset($_COOKIE['user_id'])) { 
     header("Location: /auth/view/login.html");

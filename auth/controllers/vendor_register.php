@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'config.php';
+include '/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["register_vendor_submit"])) {

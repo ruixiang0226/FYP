@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'config.php';
+include '/config.php';
 
 $user_id = $_POST['user_id'] ?? null;
 $vendor_id = $_POST['vendor_id'] ?? null;
