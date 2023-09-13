@@ -166,7 +166,7 @@ $menu_img_paths_str = implode(", ", $menu_imgs);
 $menu_img_paths_json = json_encode($menu_imgs);
 
 // Read the template files
-$html_template = file_get_contents('vendorpage/vendorpage.html');
+$html_template = file_get_contents('/vendorpage/vendorpage.html');
 
 // Replace placeholders with actual data
 $html_template = str_replace('{{vendor_name}}', $vendor_name, $html_template);
