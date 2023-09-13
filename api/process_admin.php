@@ -208,7 +208,7 @@ if ($stmt->execute()) {
         $homepageContent = file_get_contents($homepageFilePath);
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
-        $newVendorHTML .= '<a class="vendorpage_link" href="/FYP/vendorpage/' . $vendor_name . '.html">';
+        $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
         $newVendorHTML .= '<div class="vendor_wrapper">';
         $newVendorHTML .= '<div class="vendor_img"><img src="' . $main_photo_display_path . '"></div>';
         $newVendorHTML .= '<div class="vendor_info">';
