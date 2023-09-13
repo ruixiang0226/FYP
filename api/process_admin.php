@@ -168,6 +168,11 @@ $menu_img_paths_json = json_encode($menu_img_paths);
 // Read the template files
 $html_template = file_get_contents( __DIR__ . '/../vendorpage/vendorpage.html');
 
+// Check if the template is read correctly
+if ($html_template === false) {
+    die("Error reading template");
+}
+
 // Replace placeholders with actual data
 $html_template = str_replace('{{vendor_name}}', $vendor_name, $html_template);
 $html_template = str_replace('{{food_type}}', htmlspecialchars($food_types_string), $html_template);
@@ -185,6 +190,11 @@ $html_template = str_replace('{{menu}}', $menu_html, $html_template);
 // Save the new HTML file
 $vendor_page_path = __DIR__ . '/../vendorpage/{$vendor_name}.html';
 file_put_contents($vendor_page_path, $html_template);
+
+// Check if the file is written correctly
+if (file_put_contents($vendor_page_path, $html_template) === false) {
+    die("Error writing new vendor page");
+}
 
 $opening_hours_serialized = serialize($opening_hours);
 
