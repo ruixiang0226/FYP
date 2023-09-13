@@ -1,6 +1,6 @@
 <?php
 
-include "config.php";
+include('./config.php');
 
 $vendorpage_id = $_GET["vendorpage_id"];
 
