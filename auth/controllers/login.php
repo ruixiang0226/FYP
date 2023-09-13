@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once(__DIR__ . '/database_key.php');
+require_once('/database_key.php');
 
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if ($conn->connect_error) {
