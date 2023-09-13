@@ -122,14 +122,13 @@ foreach ($other_photos_display_paths as $display_path) {
 
 // menu form
 $menu_html = '';
-$menu_imgs = $_FILES['menu_img'] ?? [];
 $menu_food_names = $_POST['food_name'] ?? [];
 $menu_food_prices = $_POST['food_price'] ?? [];
 $menu_food_names_str = implode(", ", $menu_food_names);
 $menu_food_prices_str = implode(", ", $menu_food_prices);
 $menu_food_names_json = json_encode($menu_food_names);
 $menu_food_prices_json = json_encode($menu_food_prices);
-
+$menu_img_paths = [];
 $menu_html_array = [];
 
 foreach ($menu_food_names as $index => $food_name) {
@@ -140,7 +139,7 @@ foreach ($menu_food_names as $index => $food_name) {
     if (empty($food_name) || empty($menu_food_prices[$index]) || $menu_imgs['error'][$index] !== 0) {
         continue;
     }
-    
+
     if (isset($menu_imgs['name'][$index]) && $menu_imgs['error'][$index] == 0) {
         $file_name = $menu_imgs['name'][$index];
         $tmp_name = $menu_imgs['tmp_name'][$index];
@@ -149,7 +148,7 @@ foreach ($menu_food_names as $index => $food_name) {
         $menu_display = "/vendorpage/img_vendor/vendorpage_$vendor_name/menu_img/" . $file_name;
 
         move_uploaded_file($tmp_name, $menu_img_path);
-        $menu_img_path_bind = $menu_display;
+        $menu_img_paths[] = $menu_display;
     }
 
     $menu_item_html = '<div class="menu_box"><div class="menu_detail">';
@@ -162,11 +161,11 @@ foreach ($menu_food_names as $index => $food_name) {
 }
 
 $menu_html = implode('', $menu_html_array);
-$menu_img_paths_str = implode(", ", $menu_imgs);
-$menu_img_paths_json = json_encode($menu_imgs);
+$menu_img_paths_str = implode(", ", $menu_img_paths);
+$menu_img_paths_json = json_encode($menu_img_paths);
 
 // Read the template files
-$html_template = file_get_contents('/vendorpage/vendorpage.html');
+$html_template = file_get_contents( __DIR__ . '/../vendorpage/vendorpage.html');
 
 // Replace placeholders with actual data
 $html_template = str_replace('{{vendor_name}}', $vendor_name, $html_template);
@@ -217,8 +216,8 @@ if ($stmt->execute()) {
         $newVendorHTML .= '<div class="vendor_info_ratings">';
         $newVendorHTML .= '<div class="rating">';
         $newVendorHTML .= '<div class="star-container" id="star-container"></div>';
-        $newVendorHTML .= '<span class="rating_label_primary">' . $rating . '/5</span>';
-        $newVendorHTML .= '<span class="rating_label_secondary">(' . $rating_count . ')</span>';
+        $newVendorHTML .= '<span class="rating_label_primary">' . '/5</span>';
+        $newVendorHTML .= '<span class="rating_label_secondary">(' . ')</span>';
         $newVendorHTML .= '</div>';
         $newVendorHTML .= '<p>' . htmlspecialchars($dining_option) . '</p>';
         $newVendorHTML .= '</div></span>';
