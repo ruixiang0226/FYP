@@ -1,5 +1,5 @@
 <?php
-$admin_id = $_GET['admin_id'] ?? null;
+$admin_id = $_COOKIE['admin_id'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +34,7 @@ $admin_id = $_GET['admin_id'] ?? null;
 
         <div class="container">  
             <div class="forms">
-                <form action="/api/process_admin.php?admin_id=<?php echo $admin_id; ?>" method="POST" enctype="multipart/form-data">
+                <form action="/api/process_admin.php" method="POST" enctype="multipart/form-data">
                 <div class="form vendor">
                         <span class="title">Vendor Registration Form</span>
                     
