@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require('./config_mysqli.php');
+require('C:\Users\This\Documents\GitHub\FYP\config_mysqli.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
     $email = $_POST["login_email"];
