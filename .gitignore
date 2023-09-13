@@ -1,3 +1,1 @@
-# Ignore config.php file
-config.php
-config_mysqli.php
+database_key.php
