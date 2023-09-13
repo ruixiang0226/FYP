@@ -1,6 +1,7 @@
 <?php
 session_start();
-include '/config.php';
+
+include "config.php";
 
 $user_id = $_GET['user_id'];
 

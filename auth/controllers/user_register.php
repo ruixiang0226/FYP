@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '/config.php';
+require "config_mysqli.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

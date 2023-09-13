@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '/config.php';
+require "config_mysqli.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["register_vendor_submit"])) {

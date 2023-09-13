@@ -1,5 +1,6 @@
 <?php
-include '/config.php';
+
+include "config.php";
 
 $vendorpage_id = $_POST["vendorpage_id"];
 $user_id = $_POST["user_id"];
