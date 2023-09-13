@@ -195,7 +195,6 @@ $username = $_SESSION['vendor_username'];
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="/web/assets/js/script.js"></script>
         <script>
-        document.addEventListener("DOMContentLoaded", function() {
             logoutButton = document.getElementById("header_logout");
             
             logoutButton.addEventListener("click", function(event) {
@@ -209,7 +208,6 @@ $username = $_SESSION['vendor_username'];
                     window.location.href = '/auth/view/login.html';
                 });
             });
-        });
         </script>
     </body>
 </html>

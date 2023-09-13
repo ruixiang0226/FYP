@@ -7,7 +7,6 @@ if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
     $email = $_POST["login_email"];
     $password = $_POST["login_password"];
