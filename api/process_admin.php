@@ -122,6 +122,7 @@ foreach ($other_photos_display_paths as $display_path) {
 
 // menu form
 $menu_html = '';
+$menu_imgs = $_FILES['menu_img'] ?? [];
 $menu_food_names = $_POST['food_name'] ?? [];
 $menu_food_prices = $_POST['food_price'] ?? [];
 $menu_food_names_str = implode(", ", $menu_food_names);
@@ -191,7 +192,7 @@ $status = 'approved';
 
 $sql = "INSERT INTO vendorpages (vendor_name, food_type, address, phone_number, opening_hours, dining_option, service_option, main_photo_path, other_photos_paths, food_name, food_price, menu_img_path, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssssssssssss", $vendor_name, $food_types_string, $address, $phone_number, $opening_hours_serialized, $dining_option, $service_options_string, $main_photo_path, json_encode($other_photos_paths), $menu_food_names_json, $menu_food_prices_json , $menu_img_paths_json, $status);
+$stmt->bind_param("sssssssssssss", $vendor_name, $food_types_string, $address, $phone_number, $opening_hours_serialized, $dining_option, $service_options_string, $main_photo_path, json_encode($other_photos_paths), $menu_food_names_json, $menu_food_prices_json, $menu_img_paths_json, $status);
 
 if ($stmt->execute()) {
     $vendorpage_id = $conn->insert_id;
