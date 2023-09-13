@@ -166,7 +166,7 @@ $menu_img_paths_str = implode(", ", $menu_imgs);
 $menu_img_paths_json = json_encode($menu_imgs);
 
 // Read the template files
-$html_template = file_get_contents('/vendorpage/vendorpage.html');
+$html_template = file_get_contents('../vendorpage/vendorpage.html');
 
 // Replace placeholders with actual data
 $html_template = str_replace('{{vendor_name}}', $vendor_name, $html_template);
@@ -198,10 +198,10 @@ if ($stmt->execute()) {
     $vendorpage_id = $conn->insert_id;
     
     $filePaths = [
-        __DIR__ . '/index.html',
-        __DIR__ . '/user/user_account.php',
-        __DIR__ . '/vendor_acc/vendor_account.php',
-        __DIR__ . '/admin/admin.php'
+        '../index.html',
+        '../user/user_account.php',
+        '../vendor_acc/vendor_account.php',
+        '../admin/admin.php'
     ];    
 
     foreach ($filePaths as $homepageFilePath) {
