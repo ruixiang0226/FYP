@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-require_once('../../key.php');
-
 $mysqli = new mysqli(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASSWORD'), getenv('DB_DATABASE'));
 
 if ($mysqli->connect_error) {

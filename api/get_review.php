@@ -1,8 +1,5 @@
 <?php
-
-require_once('../../key.php');
-
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+$conn = new mysqli(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASSWORD'), getenv('DB_DATABASE'));
 
 $vendorpage_id = $_GET["vendorpage_id"];
 
