@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '/config.php';
+include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
     $email = $_POST["login_email"];
