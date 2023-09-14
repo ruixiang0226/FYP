@@ -107,7 +107,7 @@ if ($_FILES['main_photo']['error'] == 0) {
     $tmp_name = $_FILES['main_photo']['tmp_name'];
     $main_photo_display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
 
-    $main_photo_path = urlencode( __DIR__ . "/../vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name);
+    $main_photo_path =  __DIR__ . "/../vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
     $main_photo_content = file_get_contents($tmp_name);
     uploadToGithub($github_owner, $github_repo, $main_photo_path, $main_photo_content, $github_token);
 }
@@ -121,7 +121,7 @@ if (isset($_FILES['another_picture'])) {
         $tmp_name = $_FILES['another_picture']['tmp_name'][$key];
         $display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name; 
 
-        $path = urlencode( __DIR__ . "/../vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name);
+        $path =  __DIR__ . "/../vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name;
         $content = file_get_contents($tmp_name);
         uploadToGithub($github_owner, $github_repo, $path, $content, $github_token);
 
