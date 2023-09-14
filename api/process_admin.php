@@ -68,21 +68,6 @@ $service_order = ["Dine-in", "Takeaway", "Delivery", "Drive-through"];
 $selected_services_ordered = array_intersect($service_order, $selected_services);
 $service_options_string = implode(' / ', $selected_services);
 
-// img_vendor file
-$baseDir =  __DIR__ . '/../vendorpage/img_vendor'; 
-$vendor_dir = $baseDir . DIRECTORY_SEPARATOR . "vendorpage_" . $vendor_name;
-$vendor_img_dir = $vendor_dir . DIRECTORY_SEPARATOR . "vendor_img";
-$menu_img_dir = $vendor_dir . DIRECTORY_SEPARATOR . "menu_img";
-
-// Create directories if they don't exist
-foreach ([$vendor_dir, $vendor_img_dir, $menu_img_dir] as $dir) {
-    if (!is_dir($dir)) {
-        if (!mkdir($dir, 0755, true)) {
-            die("Failed to create directory: $dir");
-        }
-    }
-}
-
 // main photo
 $main_photo_path = '';
 $main_photo_display_path = '';
@@ -90,9 +75,11 @@ $main_photo_display_path = '';
 if ($_FILES['main_photo']['error'] == 0) {
     $file_name = $_FILES['main_photo']['name'];
     $tmp_name = $_FILES['main_photo']['tmp_name'];
-    $main_photo_path = "$vendor_img_dir/" . $file_name;
     $main_photo_display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
-    move_uploaded_file($tmp_name, $main_photo_path);
+
+    $main_photo_path = "vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
+    $main_photo_content = file_get_contents($tmp_name);
+    uploadToGithub($github_owner, $github_repo, $main_photo_path, $main_photo_content, $github_token);
 }
 
 // another photo
@@ -102,9 +89,12 @@ $other_photos_display_paths = [];
 if (isset($_FILES['another_picture'])) {
     foreach ($_FILES['another_picture']['name'] as $key => $name) {
         $tmp_name = $_FILES['another_picture']['tmp_name'][$key];
-        $path = "$vendor_img_dir/" . $name;
         $display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name; 
-        move_uploaded_file($tmp_name, $path);
+
+        $path = "vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
+        $content = file_get_contents($tmp_name);
+        uploadToGithub($github_owner, $github_repo, $path, $content, $github_token);
+
         $other_photos_paths[] = $path;
         $other_photos_display_paths[] = $display_path;
     }
@@ -145,10 +135,11 @@ foreach ($menu_food_names as $index => $food_name) {
         $file_name = $menu_imgs['name'][$index];
         $tmp_name = $menu_imgs['tmp_name'][$index];
         
-        $menu_img_path = "$menu_img_dir/" . $file_name;
+        $menu_img_path = "vendorpage/img_vendor/vendorpage_$vendor_name/menu_img/" . $file_name;
         $menu_display = "/vendorpage/img_vendor/vendorpage_$vendor_name/menu_img/" . $file_name;
 
-        move_uploaded_file($tmp_name, $menu_img_path);
+        $menu_img_content = file_get_contents($tmp_name);
+        uploadToGithub($github_owner, $github_repo, $menu_img_path, $menu_img_content, $github_token);
         $menu_img_paths[] = $menu_display;
     }
 
@@ -188,16 +179,45 @@ $html_template = str_replace('{{thumb_img}}', $image_slider_html, $html_template
 $html_template = str_replace('{{menu}}', $menu_html, $html_template);
 
 // Save the new HTML file
-$vendor_page_path = __DIR__ . '/../vendorpage/{$vendor_name}.html';
-file_put_contents($vendor_page_path, $html_template);
-
-// Check if the file is written correctly
+$vendor_page_path = __DIR__ . "/../vendorpage/{$vendor_name}.html";
 if (file_put_contents($vendor_page_path, $html_template) === false) {
     die("Error writing new vendor page");
 }
 
-$opening_hours_serialized = serialize($opening_hours);
+function uploadToGithub($owner, $repo, $filePath, $content, $token) {
+    $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
+    $data = [
+        "message" => "Add file",
+        "content" => base64_encode($content)
+    ];
+    $options = [
+        "http" => [
+            "header" => [
+                "User-Agent: PHP",
+                "Authorization: token $token",
+                "Content-Type: application/json",
+                "Accept: application/vnd.github.v3+json"
+            ],
+            "method" => "PUT",
+            "content" => json_encode($data)
+        ]
+    ];
+    $context = stream_context_create($options);
+    $response = file_get_contents($api_url, false, $context);
+    if ($response === FALSE) {
+        die("Something went wrong while uploading to GitHub");
+    }
+}
 
+$github_token = getenv('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');
+$github_repo = "FYP";
+$github_owner = "ruixiang0226";
+$github_path = "vendorpage/{$vendor_name}.html";  
+// Upload HTML to GitHub
+uploadToGithub($github_owner, $github_repo, $github_path, $vendor_page_path, $html_template, $github_token);
+
+
+$opening_hours_serialized = serialize($opening_hours);
 $status = 'approved';
 
 $sql = "INSERT INTO vendorpages (vendor_name, food_type, address, phone_number, opening_hours, dining_option, service_option, main_photo_path, other_photos_paths, food_name, food_price, menu_img_path, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -246,6 +266,7 @@ if ($stmt->execute()) {
 } else {
     die("Error: " . $stmt->error);
 }
+
 
 $stmt->close();
 header("Location: /vendorpage/{$vendor_name}.html ");
