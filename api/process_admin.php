@@ -95,7 +95,7 @@ function uploadToGithub($owner, $repo, $filePath, $content, $token) {
     }
 }
 
-$github_token = "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";
+$github_token = "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";
 $github_repo = "FYP";
 $github_owner = "ruixiang0226";
 
