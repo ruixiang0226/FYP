@@ -94,7 +94,7 @@ function uploadToGithub($owner, $repo, $filePath, $content, $token) {
         die("Something went wrong while uploading to GitHub");
     }
 }
-$github_token = getenv('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'); 
+$github_token = getenv('GITHUB_TOKEN');
 $github_repo = "FYP";
 $github_owner = "ruixiang0226";
 
