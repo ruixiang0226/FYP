@@ -68,6 +68,36 @@ $service_order = ["Dine-in", "Takeaway", "Delivery", "Drive-through"];
 $selected_services_ordered = array_intersect($service_order, $selected_services);
 $service_options_string = implode(' / ', $selected_services);
 
+
+function uploadToGithub($owner, $repo, $filePath, $content, $token) {
+    $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
+    $data = [
+        "message" => "Add file",
+        "content" => base64_encode($content)
+    ];
+    $options = [
+        "http" => [
+            "header" => [
+                "User-Agent: PHP",
+                "Authorization: token $token",
+                "Content-Type: application/json",
+                "Accept: application/vnd.github.v3+json"
+            ],
+            "method" => "PUT",
+            "content" => json_encode($data)
+        ]
+    ];
+    $context = stream_context_create($options);
+    $response = file_get_contents($api_url, false, $context);
+    if ($response === FALSE) {
+        die("Something went wrong while uploading to GitHub");
+    }
+}
+
+$github_token = getenv('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');
+$github_repo = "FYP";
+$github_owner = "ruixiang0226";
+
 // main photo
 $main_photo_path = '';
 $main_photo_display_path = '';
@@ -159,11 +189,6 @@ $menu_img_paths_json = json_encode($menu_img_paths);
 // Read the template files
 $html_template = file_get_contents( __DIR__ . '/../vendorpage/vendorpage.html');
 
-// Check if the template is read correctly
-if ($html_template === false) {
-    die("Error reading template");
-}
-
 // Replace placeholders with actual data
 $html_template = str_replace('{{vendor_name}}', $vendor_name, $html_template);
 $html_template = str_replace('{{food_type}}', htmlspecialchars($food_types_string), $html_template);
@@ -184,35 +209,8 @@ if (file_put_contents($vendor_page_path, $html_template) === false) {
     die("Error writing new vendor page");
 }
 
-function uploadToGithub($owner, $repo, $filePath, $content, $token) {
-    $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
-    $data = [
-        "message" => "Add file",
-        "content" => base64_encode($content)
-    ];
-    $options = [
-        "http" => [
-            "header" => [
-                "User-Agent: PHP",
-                "Authorization: token $token",
-                "Content-Type: application/json",
-                "Accept: application/vnd.github.v3+json"
-            ],
-            "method" => "PUT",
-            "content" => json_encode($data)
-        ]
-    ];
-    $context = stream_context_create($options);
-    $response = file_get_contents($api_url, false, $context);
-    if ($response === FALSE) {
-        die("Something went wrong while uploading to GitHub");
-    }
-}
-
-$github_token = getenv('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');
-$github_repo = "FYP";
-$github_owner = "ruixiang0226";
 $github_path = "vendorpage/{$vendor_name}.html";  
+
 // Upload HTML to GitHub
 uploadToGithub($github_owner, $github_repo, $github_path, $vendor_page_path, $html_template, $github_token);
 
