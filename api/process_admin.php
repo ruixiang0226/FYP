@@ -94,7 +94,7 @@ function uploadToGithub($owner, $repo, $filePath, $content, $token) {
     }
 }
 
-$github_token = getenv('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');
+$github_token = "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";
 $github_repo = "FYP";
 $github_owner = "ruixiang0226";
 
@@ -121,7 +121,7 @@ if (isset($_FILES['another_picture'])) {
         $tmp_name = $_FILES['another_picture']['tmp_name'][$key];
         $display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name; 
 
-        $path = "vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
+        $path = "vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name;
         $content = file_get_contents($tmp_name);
         uploadToGithub($github_owner, $github_repo, $path, $content, $github_token);
 
