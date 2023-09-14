@@ -107,7 +107,7 @@ if ($_FILES['main_photo']['error'] == 0) {
     $tmp_name = $_FILES['main_photo']['tmp_name'];
     $main_photo_display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
 
-    $main_photo_path = urlencode("vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name);
+    $main_photo_path = urlencode( __DIR__ . "/../vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name);
     $main_photo_content = file_get_contents($tmp_name);
     uploadToGithub($github_owner, $github_repo, $main_photo_path, $main_photo_content, $github_token);
 }
@@ -121,7 +121,7 @@ if (isset($_FILES['another_picture'])) {
         $tmp_name = $_FILES['another_picture']['tmp_name'][$key];
         $display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name; 
 
-        $path = urlencode("vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name);
+        $path = urlencode( __DIR__ . "/../vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name);
         $content = file_get_contents($tmp_name);
         uploadToGithub($github_owner, $github_repo, $path, $content, $github_token);
 
@@ -165,7 +165,7 @@ foreach ($menu_food_names as $index => $food_name) {
         $file_name = $menu_imgs['name'][$index];
         $tmp_name = $menu_imgs['tmp_name'][$index];
         
-        $menu_img_path = "vendorpage/img_vendor/vendorpage_$vendor_name/menu_img/" . $file_name;
+        $menu_img_path =  __DIR__ . "/../vendorpage/img_vendor/vendorpage_$vendor_name/menu_img/" . $file_name;
         $menu_display = "/vendorpage/img_vendor/vendorpage_$vendor_name/menu_img/" . $file_name;
 
         $menu_img_content = file_get_contents($tmp_name);
@@ -204,7 +204,7 @@ $html_template = str_replace('{{thumb_img}}', $image_slider_html, $html_template
 $html_template = str_replace('{{menu}}', $menu_html, $html_template);
 
 // Save the new HTML file
-$vendor_page_path =  "vendorpage/{$vendor_name}.html";
+$vendor_page_path =  __DIR__ . "/../vendorpage/{$vendor_name}.html";
 if (file_put_contents($vendor_page_path, $html_template) === false) {
     die("Error writing new vendor page");
 }
