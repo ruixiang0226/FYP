@@ -91,6 +91,7 @@ function uploadToGithub($owner, $repo, $filePath, $content, $token) {
     $context = stream_context_create($options);
     $response = file_get_contents($api_url, false, $context);
     if ($response === FALSE) {
+        var_dump($http_response_header);
         die("Something went wrong while uploading to GitHub");
     }
 }
