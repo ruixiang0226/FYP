@@ -227,6 +227,10 @@ $html_template = str_replace('{{main_img}}', $image_slider_html, $html_template)
 $html_template = str_replace('{{thumb_img}}', $image_slider_html, $html_template);
 $html_template = str_replace('{{menu}}', $menu_html, $html_template);
 
+if (!is_dir('vendorpage')) {
+    mkdir('vendorpage', 0777, true);
+}
+
 // Save the new HTML file
 $vendor_page_path = "vendorpage/{$vendor_name}.html";
 if (file_put_contents($vendor_page_path, $html_template) === false) {
