@@ -252,10 +252,10 @@ if ($stmt->execute()) {
     $vendorpage_id = $conn->insert_id;
     
     $filePaths = [
-        __DIR__ . '/../index.html',
-        __DIR__ . '/../user/user_account.php',
-        __DIR__ . '/../vendor_acc/vendor_account.php',
-        __DIR__ . '/../admin/admin.php'
+        'index.html',
+        'user/user_account.php',
+        'vendor_acc/vendor_account.php',
+        'admin/admin.php'
     ];   
 
     foreach ($filePaths as $homepageFilePath) {
