@@ -52,6 +52,10 @@ function uploadToGithub($owner, $repo, $filePath, $content, $token) {
     }
 }
 
+$github_token = getenv('GITHUB_TOKEN');
+$github_repo = "FYP";
+$github_owner = "ruixiang0226";
+
 // Simplified GitHub upload function
 function uploadFileToGithub($owner, $repo, $filePath, $fileTmpPath, $token) {
     $content = file_get_contents($fileTmpPath);
