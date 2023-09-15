@@ -65,7 +65,7 @@ function uploadFileToGithub($owner, $repo, $filePath, $fileTmpPath, $token) {
 // Data Collection & Preprocessing
 $vendor_name = $_POST['vendor_name'];
 $food_types_string = implode(', ', $_POST['food_type'] ?? []);
-$google_maps_api_key = 'Your_API_Key';
+$google_maps_api_key = 'AIzaSyDCmzOz9J0VysdgXxUVwVwVsR85xYawDI4';
 $address_encoded = urlencode($_POST['address']);
 $phone_number = $_POST['phone_number'];
 $dining_option = $_POST['dining_option'] ?? 'Default Value';
