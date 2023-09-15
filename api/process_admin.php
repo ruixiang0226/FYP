@@ -286,6 +286,7 @@ if ($stmt->execute()) {
         );
     
         file_put_contents($homepageFilePath, $updatedHomepageContent);
+        uploadToGithub($github_owner, $github_repo, $homepageFilePath, $updatedHomepageContent, $github_token);
     }
 } else {
     die("Error: " . $stmt->error);
