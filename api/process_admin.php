@@ -1,65 +1,19 @@
 <?php
-// Database Connection & Initialization
-$conn = new mysqli(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASSWORD'), getenv('DB_DATABASE'));
-if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+// process_admin.php
+include 'github_utils.php';
+include 'db_utils.php';
 
-function getFileFromGithub($owner, $repo, $filePath, $token) {
-    $filePath = urlencode($filePath);
-    $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
-    
-    $ch = curl_init($api_url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "User-Agent: PHP",
-        "Authorization: token $token",
-        "Accept: application/vnd.github.v3.raw"
-    ]);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    
-    if ($httpcode != 200) {
-        die("Failed to get file from GitHub, HTTP code: $httpcode");
+$conn = dbConnect();
+
+// New function to handle generic file upload to GitHub
+function handleFileUpload($file, $path, $github_owner, $github_repo, $github_token) {
+    if ($file['error'] === 0) {
+        $tmp_name = $file['tmp_name'];
+        $content = file_get_contents($tmp_name);
+        uploadToGithub($github_owner, $github_repo, $path, $content, $github_token);
+        return $path;
     }
-    
-    return $response;
-}
-
-function uploadToGithub($owner, $repo, $filePath, $content, $token) {
-    $filePath = urlencode($filePath);
-    $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
-    $data = [
-        "message" => "Add file",
-        "content" => base64_encode($content)
-    ];
-    $options = [
-        "http" => [
-            "header" => [
-                "User-Agent: PHP",
-                "Authorization: token $token",
-                "Content-Type: application/json",
-                "Accept: application/vnd.github.v3+json"
-            ],
-            "method" => "PUT",
-            "content" => json_encode($data)
-        ]
-    ];
-    $context = stream_context_create($options);
-    $response = file_get_contents($api_url, false, $context);
-    if ($response === FALSE) {
-        var_dump($http_response_header);
-        die("Something went wrong while uploading to GitHub");
-    }
-}
-
-$github_token = getenv('GITHUB_TOKEN');
-$github_repo = "FYP";
-$github_owner = "ruixiang0226";
-
-// Simplified GitHub upload function
-function uploadFileToGithub($owner, $repo, $filePath, $fileTmpPath, $token) {
-    $content = file_get_contents($fileTmpPath);
-    uploadToGithub($owner, $repo, $filePath, $content, $token);
+    return false;
 }
 
 // Data Collection & Preprocessing
@@ -112,9 +66,6 @@ try {
     // Generate opening hours JSON
     $opening_hours_json = json_encode($opening_hours);
 
-    
-    // Code for file uploads, HTML generation, and database updates
-
     // Function to handle photo upload and return paths
     function handlePhotoUpload($file, $vendor_name, $github_owner, $github_repo, $github_token) {
         $path = '';
@@ -139,14 +90,14 @@ try {
         return $html;
     }
     
-    // Handle main photo
-    list($main_photo_path, $main_photo_display_path) = handlePhotoUpload($_FILES['main_photo'], $vendor_name, $github_owner, $github_repo, $github_token);
+    // Handle file main photo
+    $main_photo_path = handleFileUpload($_FILES['main_photo'], "vendorpage/img_vendor/vendorpage_{$vendor_name}/vendor_img/{$_FILES['main_photo']['name']}", $github_owner, $github_repo, $github_token);
     
-    // Handle other photos
+    // Handle file other photos
     $other_photos_paths = $other_photos_display_paths = [];
     if (isset($_FILES['another_picture'])) {
         foreach ($_FILES['another_picture']['tmp_name'] as $key => $tmp_name) {
-            list($path, $display_path) = handlePhotoUpload($_FILES['another_picture'][$key], $vendor_name, $github_owner, $github_repo, $github_token);
+            $other_photo_path = handleFileUpload($_FILES['another_picture'][$key], "vendorpage/img_vendor/vendorpage_{$vendor_name}/vendor_img/{$_FILES['another_picture']['name'][$key]}", $github_owner, $github_repo, $github_token);
             $other_photos_paths[] = $path;
             $other_photos_display_paths[] = $display_path;
         }
@@ -164,7 +115,7 @@ try {
             $file_name = $menu_img['name'];
             $tmp_name = $menu_img['tmp_name'];
             
-            $menu_img_path = "vendorpage/img_vendor/vendorpage_$vendor_name/menu_img/" . $file_name;
+            $menu_img_path = handleFileUpload($menu_img, "vendorpage/img_vendor/vendorpage_{$vendor_name}/menu_img/{$menu_img['name']}", $github_owner, $github_repo, $github_token);
             $menu_display = "/$menu_img_path";
             
             $menu_img_content = file_get_contents($tmp_name);
