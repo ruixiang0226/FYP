@@ -288,6 +288,12 @@ if ($stmt->execute()) {
         }
 
         $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
+        if ($homepageContent === null) {
+            error_log("Failed to get content for $homepageFilePath");
+        } else {
+            // Check if you actually get the file content
+            error_log("Received content for $homepageFilePath: " . substr($homepageContent, 0, 100));  // Print first 100 chars
+        }
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
