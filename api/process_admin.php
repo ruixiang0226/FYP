@@ -259,15 +259,14 @@ if ($stmt->execute()) {
     $vendorpage_id = $conn->insert_id;
     
     $filePaths = [
-        'user/user_account.php',
-        'vendor_acc/vendor_account.php',
-        'admin/admin.php'
+        "index.html",
+        "user/user_account.php",
+        "vendor_acc/vendor_account.php",
+        "admin/admin.php"
     ];   
 
-    $allContents = [];
     foreach ($filePaths as $homepageFilePath) {
         $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
-        $allContents[$homepageFilePath] = $homepageContent;
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
