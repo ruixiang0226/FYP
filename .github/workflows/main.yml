@@ -1,0 +1,26 @@
+name: Upload Photos and HTML
+
+on:
+  push:
+    branches:
+      - main # Change this to your default branch if not 'main'
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Upload Photos
+        uses: actions/upload-artifact@v2
+        with:
+          name: photos
+          path: vendorpage/img_vendor/vendorpage_${{ github.event.inputs.vendor_name }}/vendor_img/*.*
+
+      - name: Upload HTML Files
+        uses: actions/upload-artifact@v2
+        with:
+          name: html
+          path: vendorpage/${{ github.event.inputs.vendor_name }}.html
