@@ -8,7 +8,6 @@ if ($conn->connect_error) {
 
 // Function get file from Github
 function getFileFromGithub($owner, $repo, $filePath, $token) {
-    $filePath = urlencode($filePath);
     $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
     
     $ch = curl_init($api_url);
@@ -23,7 +22,8 @@ function getFileFromGithub($owner, $repo, $filePath, $token) {
     curl_close($ch);
     
     if ($httpcode != 200) {
-        die("Failed to get file from GitHub, HTTP code: $httpcode");
+        error_log("Failed to get file from GitHub, HTTP code: $httpcode");
+        return null;
     }
     
     return $response;
@@ -31,7 +31,6 @@ function getFileFromGithub($owner, $repo, $filePath, $token) {
 
 // Function upload file to Github
 function uploadToGithub($owner, $repo, $filePath, $content, $token) {
-    $filePath = urlencode($filePath);
     $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
     $data = [
         "message" => "Add file",
