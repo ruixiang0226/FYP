@@ -107,89 +107,81 @@ $opening_hours_html = join('', array_map(function($day, $times) {
 $opening_hours_json = json_encode($opening_hours);
 $opening_hours_serialized = serialize($opening_hours);
 
-// Function to handle photo upload and return photo paths
-function handlePhotoUpload($fileData, $vendor_name, $github_owner, $github_repo, $github_token) {
-    $photo_paths = [];
-    $display_paths = [];
 
-    foreach ($fileData['name'] as $key => $name) {
-        $tmp_name = $fileData['tmp_name'][$key];
-        $display_path = "/vendorpage/img_vendor/vendorpage_{$vendor_name}/vendor_img/" . $name;
-        $path = "vendorpage/img_vendor/vendorpage_{$vendor_name}/vendor_img/" . $name;
+if ($_FILES['main_photo']['error'] == 0) {
+    $file_name = $_FILES['main_photo']['name'];
+    $tmp_name = $_FILES['main_photo']['tmp_name'];
+    $main_photo_display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
 
-        $content = file_get_contents($tmp_name);
-        uploadToGithub($github_owner, $github_repo, $path, $content, $github_token);
-
-        $photo_paths[] = $path;
-        $display_paths[] = $display_path;
-    }
-
-    return [$photo_paths, $display_paths];
-}
-
-// Main photo (using the old approach for a single photo)
-$main_photo_data = isset($_FILES['main_photo']) ? $_FILES['main_photo'] : null;
-if ($main_photo_data && $main_photo_data['error'] == 0) {
-    $file_name = $main_photo_data['name'];
-    $tmp_name = $main_photo_data['tmp_name'];
-    $main_photo_display_path = "/vendorpage/img_vendor/vendorpage_{$vendor_name}/vendor_img/" . $file_name;
-    $main_photo_path = "vendorpage/img_vendor/vendorpage_{$vendor_name}/vendor_img/" . $file_name;
+    $main_photo_path = "vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
     $main_photo_content = file_get_contents($tmp_name);
     uploadToGithub($github_owner, $github_repo, $main_photo_path, $main_photo_content, $github_token);
 }
 
-// Other photos
-$other_photo_data = $_FILES['another_picture'] ?? null;
-if ($other_photo_data) {
-    list($other_photos_paths, $other_photos_display_paths) = handlePhotoUpload($other_photo_data, $vendor_name, $github_owner, $github_repo, $github_token);
+// another photo
+$other_photos_paths = [];
+$other_photos_display_paths = []; 
+
+if (isset($_FILES['another_picture'])) {
+    foreach ($_FILES['another_picture']['name'] as $key => $name) {
+        $tmp_name = $_FILES['another_picture']['tmp_name'][$key];
+        $display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name; 
+
+        $path = "vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name;
+        $content = file_get_contents($tmp_name);
+        uploadToGithub($github_owner, $github_repo, $path, $content, $github_token);
+
+        $other_photos_paths[] = $path;
+        $other_photos_display_paths[] = $display_path;
+    }
 }
+$other_photos_names_json = json_encode($other_photos_paths);
 
-// Image slider display
-$all_display_paths = array_merge([$main_photo_display_path] ?? [], $other_photos_display_paths ?? []);
-$image_slider_html = implode('', array_map(function($display_path) {
-    return '<li class="splide__slide"><img src="' . $display_path . '" alt=""></li>';
-}, $all_display_paths));
+// menu form
+$menu_html = '';
+$menu_imgs = $_FILES['menu_img'] ?? [];
+$menu_food_names = $_POST['food_name'] ?? [];
+$menu_food_prices = $_POST['food_price'] ?? [];
+$menu_food_names_str = implode(", ", $menu_food_names);
+$menu_food_prices_str = implode(", ", $menu_food_prices);
+$menu_food_names_json = json_encode($menu_food_names);
+$menu_food_prices_json = json_encode($menu_food_prices);
+$menu_img_paths = [];
+$menu_html_array = [];
 
+foreach ($menu_food_names as $index => $food_name) {
+    $food_name_bind = $food_name;
+    $food_price_bind = $menu_food_prices[$index] ?? '';  
+    $menu_img_path_bind = '';  
 
-// Function to handle menu items and return HTML and image paths
-function handleMenuItems($menu_imgs, $menu_food_names, $menu_food_prices, $vendor_name, $github_owner, $github_repo, $github_token) {
-    $menu_html_array = [];
-    $menu_img_paths = [];
+    if (empty($food_name) || empty($menu_food_prices[$index]) || $menu_imgs['error'][$index] !== 0) {
+        continue;
+    }
 
-    foreach ($menu_food_names as $index => $food_name) {
-        $food_price = $menu_food_prices[$index] ?? '';
-
-        if (empty($food_name) || empty($food_price) || $menu_imgs['error'][$index] !== 0) {
-            continue;
-        }
-
+    if (isset($menu_imgs['name'][$index]) && $menu_imgs['error'][$index] == 0) {
         $file_name = $menu_imgs['name'][$index];
         $tmp_name = $menu_imgs['tmp_name'][$index];
-        $menu_display = "/vendorpage/img_vendor/vendorpage_{$vendor_name}/menu_img/" . $file_name;
-        $menu_img_path = "vendorpage/img_vendor/vendorpage_{$vendor_name}/menu_img/" . $file_name;
+        
+        $menu_img_path = "vendorpage/img_vendor/vendorpage_$vendor_name/menu_img/" . $file_name;
+        $menu_display = "/vendorpage/img_vendor/vendorpage_$vendor_name/menu_img/" . $file_name;
 
         $menu_img_content = file_get_contents($tmp_name);
         uploadToGithub($github_owner, $github_repo, $menu_img_path, $menu_img_content, $github_token);
         $menu_img_paths[] = $menu_display;
-
-        $menu_item_html = "<div class='menu_box'><div class='menu_detail'>" .
-                          "<p class='not'>Food Name: " . htmlspecialchars($food_name) . "</p>" .
-                          "<p class='not'>Food Price: " . htmlspecialchars($food_price) . "</p>" .
-                          "<div class='menu_img'><img src='" . htmlspecialchars($menu_display) . "' alt=''></div>" .
-                          "</div></div>";
-
-        $menu_html_array[] = $menu_item_html;
     }
 
-    return [implode('', $menu_html_array), $menu_img_paths];
+    $menu_item_html = '<div class="menu_box"><div class="menu_detail">';
+    $menu_item_html .= '<p class="not">Food Name: ' . htmlspecialchars($food_name_bind) . '</p>';
+    $menu_item_html .= '<p class="not">Food Price: ' . htmlspecialchars($food_price_bind) . '</p>'; 
+    $menu_item_html .= '<div class="menu_img"><img src="' . htmlspecialchars($menu_display) . '" alt=""></div>';
+    $menu_item_html .= '</div></div>';
+
+    $menu_html_array[] = $menu_item_html;
 }
 
-// Handle menu items
-list($menu_html, $menu_img_paths) = handleMenuItems($_FILES['menu_img'] ?? [], $_POST['food_name'] ?? [], $_POST['food_price'] ?? [], $vendor_name, $github_owner, $github_repo, $github_token);
-
+$menu_html = implode('', $menu_html_array);
 $menu_img_paths_str = implode(", ", $menu_img_paths);
 $menu_img_paths_json = json_encode($menu_img_paths);
-
 
 // Read the template files
 $relative_vendor_page_template_path = "vendorpage/vendorpage.html";
@@ -231,7 +223,7 @@ uploadToGithub($github_owner, $github_repo, $vendor_page_path, $html_template, $
 
 $sql = "INSERT INTO vendorpages (vendor_name, food_type, address, phone_number, opening_hours, dining_option, service_option, main_photo_path, other_photos_paths, food_name, food_price, menu_img_path, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssssssssssss", $vendor_name, $food_types_string, $address, $phone_number, $opening_hours_serialized, $dining_option, $service_options_string, $main_photo_path, $other_photos_paths, $menu_food_names, $menu_food_prices,  $menu_img_paths_json, $status);
+$stmt->bind_param("sssssssssssss", $vendor_name, $food_types_string, $address, $phone_number, $opening_hours_serialized, $dining_option, $service_options_string, $main_photo_path, $other_photos_names_json, $menu_food_names_json, $menu_food_prices_json, $menu_img_paths_json, $status);
 
 if ($stmt->execute()) {
     $vendorpage_id = $conn->insert_id;
