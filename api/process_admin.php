@@ -6,55 +6,61 @@ if ($conn->connect_error) {
 }
 
 
-// Function get file from Github
-function getFileFromGithub($owner, $repo, $filePath, $token) {
-    $filePath = urlencode($filePath);
-    $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
-    
-    $ch = curl_init($api_url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+function githubApiHeaders($token) {
+    return [
         "User-Agent: PHP",
         "Authorization: token $token",
-        "Accept: application/vnd.github.v3.raw"
-    ]);
+        "Accept: application/vnd.github.v3+json"
+    ];
+}
+
+function handleGithubApiError($httpcode) {
+    if ($httpcode != 200) {
+        die("Failed to communicate with GitHub, HTTP code: $httpcode");
+    }
+}
+
+function githubApiUrl($owner, $repo, $filePath) {
+    $filePath = urlencode($filePath);
+    return "https://api.github.com/repos/$owner/$repo/contents/$filePath";
+}
+
+function getFileFromGithub($owner, $repo, $filePath, $token) {
+    $api_url = githubApiUrl($owner, $repo, $filePath);
+    
+    $ch = curl_init($api_url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, githubApiHeaders($token));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
     
-    if ($httpcode != 200) {
-        die("Failed to get file from GitHub, HTTP code: $httpcode");
-    }
+    handleGithubApiError($httpcode);
     
     return $response;
 }
 
-// Function upload file to Github
 function uploadToGithub($owner, $repo, $filePath, $content, $token) {
-    $filePath = urlencode($filePath);
-    $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
+    $api_url = githubApiUrl($owner, $repo, $filePath);
     $data = [
         "message" => "Add file",
         "content" => base64_encode($content)
     ];
     $options = [
         "http" => [
-            "header" => [
-                "User-Agent: PHP",
-                "Authorization: token $token",
-                "Content-Type: application/json",
-                "Accept: application/vnd.github.v3+json"
-            ],
+            "header" => githubApiHeaders($token),
             "method" => "PUT",
             "content" => json_encode($data)
         ]
     ];
     $context = stream_context_create($options);
     $response = file_get_contents($api_url, false, $context);
+    
     if ($response === FALSE) {
         die("Something went wrong while uploading to GitHub");
     }
 }
+
 
 $github_token = getenv('GITHUB_TOKEN');
 $github_repo = "FYP";
