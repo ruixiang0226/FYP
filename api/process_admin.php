@@ -40,7 +40,7 @@ function getFileFromGithub($owner, $repo, $filePath, $token) {
     return $response;
 }
 
-// Function upload file to Github
+// Function to upload file to Github
 function uploadToGithub($owner, $repo, $filePath, $content, $token) {
     $filePath = urlencode($filePath);
     $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
@@ -62,10 +62,20 @@ function uploadToGithub($owner, $repo, $filePath, $content, $token) {
     ];
     $context = stream_context_create($options);
     $response = file_get_contents($api_url, false, $context);
+
     if ($response === FALSE) {
-        die("Something went wrong while uploading to GitHub");
+        return "Something went wrong while uploading to GitHub: " . error_get_last()['message'];
+    }
+
+    // Check the response for success
+    $responseData = json_decode($response, true);
+    if (isset($responseData['content'])) {
+        return "File uploaded successfully.";
+    } else {
+        return "Failed to upload file to GitHub. Response: " . $response;
     }
 }
+
 
 $github_token = getenv('GITHUB_TOKEN');
 $github_repo = "FYP";
