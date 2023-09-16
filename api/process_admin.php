@@ -278,12 +278,16 @@ if ($stmt->execute()) {
         'user/user_account.php',
         'vendor_acc/vendor_account.php',
         'admin/admin.php'
-    ];   
+    ];
 
     foreach ($filePaths as $homepageFilePath) {
-        error_log("Trying to fetch: $homepageFilePath");
+
+        $directory = dirname($homepageFilePath);
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true); // Create the directory with appropriate permissions
+        }
+
         $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
-        error_log("Fetched content length: " . strlen($homepageContent));
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
