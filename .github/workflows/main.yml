@@ -37,5 +37,5 @@ jobs:
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add 'user/user_account.php' 'vendor_acc/vendor_account.php' 'admin/admin.php'
+          git add 'index.html' 'user/user_account.php' 'vendor_acc/vendor_account.php' 'admin/admin.php'
           git diff --cached --exit-code || (git commit -m "Automatically update files" && git push)
