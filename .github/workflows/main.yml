@@ -12,14 +12,6 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-        
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4'  # 修改为你需要的版本
-
-      - name: Run Custom PHP Script
-        run: php api/process_admin.php
 
       - name: Upload Vendor Photos
         if: github.event.inputs.image_type == 'vendor_img'
@@ -40,3 +32,11 @@ jobs:
         with:
           name: html
           path: vendorpage/${{ github.event.inputs.vendor_name }}.html
+          
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add 'index.html' 'user/user_account.php' 'vendor_acc/vendor_account.php' 'admin/admin.php'
+          git commit -m "Automatically update files"
+          git push
