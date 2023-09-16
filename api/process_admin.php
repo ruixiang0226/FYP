@@ -65,8 +65,9 @@ $github_owner = "ruixiang0226";
 // Data Collection & Preprocessing
 $vendor_name = $_POST['vendor_name'];
 $food_types_string = implode(', ', $_POST['food_type'] ?? []);
+$address = $_POST['address'];
 $google_maps_api_key = 'AIzaSyDCmzOz9J0VysdgXxUVwVwVsR85xYawDI4';
-$address_encoded = urlencode($_POST['address']);
+$address_encoded = urlencode($address);
 $phone_number = $_POST['phone_number'];
 $dining_option = $_POST['dining_option'] ?? 'Default Value';
 $service_options_string = implode(' / ', $_POST['service_option'] ?? []);
@@ -126,10 +127,15 @@ function handlePhotoUpload($fileData, $vendor_name, $github_owner, $github_repo,
     return [$photo_paths, $display_paths];
 }
 
-// Main photo
+// Main photo (using the old approach for a single photo)
 $main_photo_data = isset($_FILES['main_photo']) ? $_FILES['main_photo'] : null;
 if ($main_photo_data && $main_photo_data['error'] == 0) {
-    list($main_photo_path, $main_photo_display_paths) = handlePhotoUpload($main_photo_data, $vendor_name, $github_owner, $github_repo, $github_token);
+    $file_name = $main_photo_data['name'];
+    $tmp_name = $main_photo_data['tmp_name'];
+    $main_photo_display_path = "/vendorpage/img_vendor/vendorpage_{$vendor_name}/vendor_img/" . $file_name;
+    $main_photo_path = "vendorpage/img_vendor/vendorpage_{$vendor_name}/vendor_img/" . $file_name;
+    $main_photo_content = file_get_contents($tmp_name);
+    uploadToGithub($github_owner, $github_repo, $main_photo_path, $main_photo_content, $github_token);
 }
 
 // Other photos
@@ -139,7 +145,7 @@ if ($other_photo_data) {
 }
 
 // Image slider display
-$all_display_paths = array_merge($main_photo_display_paths ?? [], $other_photos_display_paths ?? []);
+$all_display_paths = array_merge([$main_photo_display_path] ?? [], $other_photos_display_paths ?? []);
 $image_slider_html = implode('', array_map(function($display_path) {
     return '<li class="splide__slide"><img src="' . $display_path . '" alt=""></li>';
 }, $all_display_paths));
