@@ -22,7 +22,7 @@ function getFileFromGithub($owner, $repo, $filePath, $token) {
     curl_close($ch);
     
     if ($httpcode != 200) {
-        die("Failed to get file from GitHub, HTTP code: $httpcode");
+        die("Failed to get file from GitHub, HTTP code: $httpcode, Response: $response");
     }
     
     return $response;
@@ -243,7 +243,11 @@ if ($stmt->execute()) {
     ];   
 
     foreach ($filePaths as $homepageFilePath) {
-        $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
+        try {
+            $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
+        } catch (Exception $e) {
+            die("Failed to get $homepageFilePath: " . $e->getMessage());
+        }
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
@@ -268,9 +272,12 @@ if ($stmt->execute()) {
             "<!-- New vendors will be added below -->\n" . $newVendorHTML,
             $homepageContent
         );
-    
-        file_put_contents($homepageFilePath, $updatedHomepageContent);
-        uploadToGithub($github_owner, $github_repo, $homepageFilePath, $updatedHomepageContent, $github_token);
+
+        try {
+            uploadToGithub($github_owner, $github_repo, $homepageFilePath, $updatedHomepageContent, $github_token);
+        } catch (Exception $e) {
+            die("Failed to update $homepageFilePath: " . $e->getMessage());
+        }
     }
 } else {
     die("Error: " . $stmt->error);
