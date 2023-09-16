@@ -12,6 +12,14 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+        
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'  # 修改为你需要的版本
+
+      - name: Run Custom PHP Script
+        run: php api/process_admin.php
 
       - name: Upload Vendor Photos
         if: github.event.inputs.image_type == 'vendor_img'
