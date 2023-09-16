@@ -259,8 +259,10 @@ if ($stmt->execute()) {
         'admin/admin.php'
     ];   
 
+    $allContents = [];
     foreach ($filePaths as $homepageFilePath) {
         $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
+        $allContents[$homepageFilePath] = $homepageContent;
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
