@@ -13,11 +13,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Upload Photos
+      - name: Upload Vendor Photos
         uses: actions/upload-artifact@v2
         with:
-          name: photos
+          name: vendor-photos
           path: vendorpage/img_vendor/vendorpage_${{ github.event.inputs.vendor_name }}/vendor_img/*.*
+
+      - name: Upload Menu Photos
+        uses: actions/upload-artifact@v2
+        with:
+          name: menu-photos
+          path: vendorpage/img_vendor/vendorpage_${{ github.event.inputs.vendor_name }}/menu_img/*.*
 
       - name: Upload HTML Files
         uses: actions/upload-artifact@v2
