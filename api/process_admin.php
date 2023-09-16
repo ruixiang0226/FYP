@@ -137,6 +137,15 @@ if (isset($_FILES['another_picture'])) {
 }
 $other_photos_names_json = json_encode($other_photos_paths);
 
+// image slider display
+$image_slider_html = '';
+if (!empty($main_photo_display_path)) { 
+    $image_slider_html .= '<li class="splide__slide"><img src="' . $main_photo_display_path . '" alt=""></li>';
+}
+foreach ($other_photos_display_paths as $display_path) {
+    $image_slider_html .= '<li class="splide__slide"><img src="' . $display_path . '" alt=""></li>';
+}
+
 // menu form
 $menu_html = '';
 $menu_imgs = $_FILES['menu_img'] ?? [];
