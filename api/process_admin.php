@@ -129,7 +129,7 @@ function handlePhotoUpload($fileData, $vendor_name, $github_owner, $github_repo,
 // Main photo
 $main_photo_data = isset($_FILES['main_photo']) ? $_FILES['main_photo'] : null;
 if ($main_photo_data && $main_photo_data['error'] == 0) {
-    list($main_photo_paths, $main_photo_display_paths) = handlePhotoUpload($main_photo_data, $vendor_name, $github_owner, $github_repo, $github_token);
+    list($main_photo_path, $main_photo_display_paths) = handlePhotoUpload($main_photo_data, $vendor_name, $github_owner, $github_repo, $github_token);
 }
 
 // Other photos
