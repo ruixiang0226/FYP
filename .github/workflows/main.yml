@@ -14,12 +14,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Upload Vendor Photos
+        if: github.event.inputs.image_type == 'vendor_img'
         uses: actions/upload-artifact@v2
         with:
           name: vendor-photos
           path: vendorpage/img_vendor/vendorpage_${{ github.event.inputs.vendor_name }}/vendor_img/*.*
 
       - name: Upload Menu Photos
+        if: github.event.inputs.image_type == 'menu_img'
         uses: actions/upload-artifact@v2
         with:
           name: menu-photos
