@@ -45,13 +45,14 @@ function uploadToGithub($owner, $repo, $filePath, $content, $token) {
                 "Accept: application/vnd.github.v3+json"
             ],
             "method" => "PUT",
-            "content" => json_encode($data)
+            "content" => json_encode($data),
+            "ignore_errors" => true
         ]
     ];
     $context = stream_context_create($options);
     $response = file_get_contents($api_url, false, $context);
-    if ($response === FALSE) {
-        die("Something went wrong while uploading to GitHub");
+    if ($response === FALSE && isset($http_response_header)) {
+        var_dump($http_response_header);
     }
 }
 
