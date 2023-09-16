@@ -107,31 +107,48 @@ $opening_hours_json = json_encode($opening_hours);
 $opening_hours_serialized = serialize($opening_hours);
 
 
-if ($_FILES['main_photo']['error'] == 0) {
-    $file_name = $_FILES['main_photo']['name'];
-    $tmp_name = $_FILES['main_photo']['tmp_name'];
-    $main_photo_display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
-
-    $main_photo_path = "vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
-    $main_photo_content = file_get_contents($tmp_name);
-    uploadToGithub($github_owner, $github_repo, $main_photo_path, $main_photo_content, $github_token);
-}
-
-// another photo
-$other_photos_paths = [];
-$other_photos_display_paths = []; 
-
-if (isset($_FILES['another_picture'])) {
-    foreach ($_FILES['another_picture']['name'] as $key => $name) {
-        $tmp_name = $_FILES['another_picture']['tmp_name'][$key];
-        $display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name; 
-
-        $path = "vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $name;
+function handlePhotoUpload($fileInfo, $github_owner, $github_repo, $github_token, $vendor_name) {
+    $paths = [];
+    $displayPaths = [];
+    
+    if ($fileInfo['error'] == 0) {
+        $file_name = basename($fileInfo['name']); // Use basename for security
+        $tmp_name = $fileInfo['tmp_name'];
+        
+        $display_path = "/vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
+        $path = "vendorpage/img_vendor/vendorpage_$vendor_name/vendor_img/" . $file_name;
+        
         $content = file_get_contents($tmp_name);
         uploadToGithub($github_owner, $github_repo, $path, $content, $github_token);
+        
+        $paths[] = $path;
+        $displayPaths[] = $display_path;
+    }
+    
+    return [$paths, $displayPaths];
+}
 
-        $other_photos_paths[] = $path;
-        $other_photos_display_paths[] = $display_path;
+// Main photo
+list($main_photo_paths, $main_photo_display_paths) = handlePhotoUpload($_FILES['main_photo'], $github_owner, $github_repo, $github_token, $vendor_name);
+$main_photo_path = $main_photo_paths[0] ?? '';
+$main_photo_display_path = $main_photo_display_paths[0] ?? '';
+
+// Another photo
+$other_photos_paths = [];
+$other_photos_display_paths = [];
+
+if (isset($_FILES['another_picture'])) {
+    foreach ($_FILES['another_picture']['error'] as $key => $error) {
+        if ($error == 0) {
+            $fileInfo = [
+                'name' => $_FILES['another_picture']['name'][$key],
+                'tmp_name' => $_FILES['another_picture']['tmp_name'][$key],
+                'error' => $error
+            ];
+            list($paths, $displayPaths) = handlePhotoUpload($fileInfo, $github_owner, $github_repo, $github_token, $vendor_name);
+            $other_photos_paths = array_merge($other_photos_paths, $paths);
+            $other_photos_display_paths = array_merge($other_photos_display_paths, $displayPaths);
+        }
     }
 }
 $other_photos_names_json = json_encode($other_photos_paths);
@@ -244,7 +261,6 @@ if ($stmt->execute()) {
 
     foreach ($filePaths as $homepageFilePath) {
         $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
-        var_dump($homepageContent);
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
