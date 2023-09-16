@@ -9,24 +9,24 @@ if ($conn->connect_error) {
 // Function get file from Github
 function getFileFromGithub($owner, $repo, $filePath, $token) {
     $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
-    
-    $ch = curl_init($api_url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $api_url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         "User-Agent: PHP",
-        "Authorization: token $token",
-        "Accept: application/vnd.github.v3.raw"
-    ]);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        "Authorization: token $token"
+    ));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $response = curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $err = curl_error($ch);
     curl_close($ch);
     
     if ($httpcode != 200) {
-        die("Failed to get file from GitHub, HTTP code: $httpcode, Response: $response");
+        die("Failed to get file from GitHub, HTTP code: $httpcode, CURL error: $err");
     }
-    
     return $response;
 }
+
 
 // Function upload file to Github
 function uploadToGithub($owner, $repo, $filePath, $content, $token) {
@@ -51,7 +51,6 @@ function uploadToGithub($owner, $repo, $filePath, $content, $token) {
     $context = stream_context_create($options);
     $response = file_get_contents($api_url, false, $context);
     if ($response === FALSE) {
-        var_dump($http_response_header);
         die("Something went wrong while uploading to GitHub");
     }
 }
