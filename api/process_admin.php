@@ -253,8 +253,8 @@ if ($stmt->execute()) {
     $vendorpage_id = $conn->insert_id;
     
     $filePaths = [
-        'index.html',
         'user/user_account.php',
+        'index.html',
         'vendor_acc/vendor_account.php',
         'admin/admin.php'
     ];   
