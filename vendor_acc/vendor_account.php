@@ -39,13 +39,13 @@ $username = $_SESSION['vendor_username'];
             </div>
             <div class="header_icons">
                 <div class="icon" id="header_application">
-                    <a class="icon_link"href="/vendor/application_form.php">
+                    <a class="icon_link"href="application_form.php">
                         <i class='bx bx-edit'></i>
                         <span class="icon_label">Apply</span>
                     </a>
                 </div>
                 <div class="icon" id="header_acc">
-                    <a class="icon_link" href="/vendor/vendor_profile.php">
+                    <a class="icon_link" href="vendor_profile.php">
                         <i class='bx bx-user-circle'></i>
                         <span class="icon_label"><?php echo $_SESSION['vendor_username']; ?></span>
                     </a>
