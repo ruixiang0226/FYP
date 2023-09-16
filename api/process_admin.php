@@ -8,6 +8,7 @@ if ($conn->connect_error) {
 
 // Function get file from Github
 function getFileFromGithub($owner, $repo, $filePath, $token) {
+    $filePath = urlencode($filePath);
     $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
     
     $ch = curl_init($api_url);
@@ -259,7 +260,9 @@ if ($stmt->execute()) {
     ];   
 
     foreach ($filePaths as $homepageFilePath) {
+        error_log("Trying to fetch: $homepageFilePath");
         $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
+        error_log("Fetched content length: " . strlen($homepageContent));
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
