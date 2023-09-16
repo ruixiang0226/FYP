@@ -226,7 +226,6 @@ if (file_put_contents($vendor_page_path, $html_template) === false) {
     die("Error writing new vendor page");
 }
 
-// Upload HTML to GitHub
 uploadToGithub($github_owner, $github_repo, $vendor_page_path, $html_template, $github_token);
 
 
@@ -245,7 +244,7 @@ if ($stmt->execute()) {
     ];   
 
     foreach ($filePaths as $homepageFilePath) {
-        $homepageContent = file_get_contents($homepageFilePath);
+        $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
