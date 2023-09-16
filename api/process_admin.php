@@ -5,6 +5,38 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Add this function
+function makeHttpRequest($url, $token) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "User-Agent: PHP",
+        "Authorization: token $token",
+        "Accept: application/vnd.github.v3.raw"
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    return [$response, $httpcode];
+}
+
+// Replace your file_get_contents in uploadToGithub
+$options = [
+    "http" => [
+        "header" => [
+            "User-Agent: PHP",
+            "Authorization: token $token",
+            "Content-Type: application/json",
+            "Accept: application/vnd.github.v3+json"
+        ],
+        "method" => "PUT",
+        "content" => json_encode($data)
+    ]
+];
+$context = stream_context_create($options);
+list($response, $httpcode) = makeHttpRequest($api_url, $token);
+
 
 // Function to get file from Github
 function getFileFromGithub($owner, $repo, $filePath, $token) {
@@ -287,7 +319,7 @@ if ($stmt->execute()) {
             mkdir($directory, 0755, true); // Create the directory with appropriate permissions
         }
 
-        $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
+        $homepageContent = makeHttpRequest($github_owner, $github_repo, $homepageFilePath, $github_token);
         if ($homepageContent === null) {
             error_log("Failed to get content for $homepageFilePath");
         } else {
