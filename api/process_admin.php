@@ -22,8 +22,7 @@ function getFileFromGithub($owner, $repo, $filePath, $token) {
     curl_close($ch);
     
     if ($httpcode != 200) {
-        error_log("Failed to get file from GitHub, HTTP code: $httpcode");
-        return null;
+        die("Failed to get file from GitHub, HTTP code: $httpcode");
     }
     
     return $response;
