@@ -6,7 +6,7 @@ if ($conn->connect_error) {
 }
 
 
-// Function get file from Github
+// Function to get file from Github
 function getFileFromGithub($owner, $repo, $filePath, $token) {
     $filePath = urlencode($filePath);
     $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
@@ -18,13 +18,23 @@ function getFileFromGithub($owner, $repo, $filePath, $token) {
         "Accept: application/vnd.github.v3.raw"
     ]);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
     $response = curl_exec($ch);
+    
+    // Check if the curl_exec() failed
+    if ($response === false) {
+        $errorInfo = curl_error($ch);
+        error_log("Failed to execute cURL: $errorInfo");
+        curl_close($ch);
+        return null;
+    }
+    
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
     
     if ($httpcode != 200) {
-        $errorInfo = curl_error($ch);
-        error_log("Failed to get file from GitHub: $errorInfo");
+        error_log("Failed to get file from GitHub. HTTP Code: $httpcode");
+        return null;
     }
     
     return $response;
