@@ -8,25 +8,26 @@ if ($conn->connect_error) {
 
 // Function get file from Github
 function getFileFromGithub($owner, $repo, $filePath, $token) {
+    $filePath = urlencode($filePath);
     $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $api_url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    
+    $ch = curl_init($api_url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "User-Agent: PHP",
-        "Authorization: token $token"
-    ));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        "Authorization: token $token",
+        "Accept: application/vnd.github.v3.raw"
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $err = curl_error($ch);
     curl_close($ch);
     
     if ($httpcode != 200) {
-        die("Failed to get file from GitHub, HTTP code: $httpcode, CURL error: $err");
+        die("Failed to get file from GitHub, HTTP code: $httpcode");
     }
+    
     return $response;
 }
-
 
 // Function upload file to Github
 function uploadToGithub($owner, $repo, $filePath, $content, $token) {
@@ -242,11 +243,8 @@ if ($stmt->execute()) {
     ];   
 
     foreach ($filePaths as $homepageFilePath) {
-        try {
-            $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
-        } catch (Exception $e) {
-            die("Failed to get $homepageFilePath: " . $e->getMessage());
-        }
+        $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
+        var_dump($homepageContent);
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
@@ -271,12 +269,9 @@ if ($stmt->execute()) {
             "<!-- New vendors will be added below -->\n" . $newVendorHTML,
             $homepageContent
         );
-
-        try {
-            uploadToGithub($github_owner, $github_repo, $homepageFilePath, $updatedHomepageContent, $github_token);
-        } catch (Exception $e) {
-            die("Failed to update $homepageFilePath: " . $e->getMessage());
-        }
+    
+        file_put_contents($homepageFilePath, $updatedHomepageContent);
+        uploadToGithub($github_owner, $github_repo, $homepageFilePath, $updatedHomepageContent, $github_token);
     }
 } else {
     die("Error: " . $stmt->error);
