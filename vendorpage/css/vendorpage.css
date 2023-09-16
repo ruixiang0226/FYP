@@ -103,6 +103,7 @@ header{
 
 .info_wrapper {
     position: relative;
+    width: 50%;
 }
 
 .return_link{
