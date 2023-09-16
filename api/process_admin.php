@@ -254,7 +254,6 @@ if ($stmt->execute()) {
     
     $filePaths = [
         'user/user_account.php',
-        'index.html',
         'vendor_acc/vendor_account.php',
         'admin/admin.php'
     ];   
