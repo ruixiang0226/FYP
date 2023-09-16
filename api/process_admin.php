@@ -30,6 +30,7 @@ function getFileFromGithub($owner, $repo, $filePath, $token) {
 
 // Function upload file to Github
 function uploadToGithub($owner, $repo, $filePath, $content, $token) {
+    $filePath = urlencode($filePath);
     $api_url = "https://api.github.com/repos/$owner/$repo/contents/$filePath";
     $data = [
         "message" => "Add file",
