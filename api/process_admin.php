@@ -272,27 +272,33 @@ $stmt->bind_param("sssssssssssss", $vendor_name, $food_types_string, $address, $
 if ($stmt->execute()) {
     $vendorpage_id = $conn->insert_id;
     
+    function handleFileFromGithub($owner, $repo, $token, $filePath) {
+        $directory = dirname($filePath);
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+        
+        $content = getFileFromGithub($owner, $repo, $filePath, $token);
+        
+        if ($content === null) {
+            error_log("Failed to get content for $filePath");
+            return false;
+        }
+        
+        error_log("Received content for $filePath: " . substr($content, 0, 100));  // Print first 100 chars
+        return $content;
+    }
+    
     $filePaths = [
         'index.html',
         'user/user_account.php',
         'vendor_acc/vendor_account.php',
         'admin/admin.php'
     ];
-
-    foreach ($filePaths as $homepageFilePath) {
-
-        $directory = dirname($homepageFilePath);
-        if (!is_dir($directory)) {
-            mkdir($directory, 0755, true); // Create the directory with appropriate permissions
-        }
-
-        $homepageContent = getFileFromGithub($github_owner, $github_repo, $homepageFilePath, $github_token);
-        if ($homepageContent === null) {
-            error_log("Failed to get content for $homepageFilePath");
-        } else {
-            // Check if you actually get the file content
-            error_log("Received content for $homepageFilePath: " . substr($homepageContent, 0, 100));  // Print first 100 chars
-        }
+    
+    foreach ($filePaths as $filePath) {
+        $content = handleFileFromGithub($github_owner, $github_repo, $github_token, $filePath);
+        if ($content === false) continue;  // Skip this iteration if fetching failed
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
