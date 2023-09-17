@@ -298,7 +298,9 @@ if ($stmt->execute()) {
     
     foreach ($filePaths as $filePath) {
         $content = handleFileFromGithub($github_owner, $github_repo, $github_token, $filePath);
-        if ($content === false) continue;  // Skip this iteration if fetching failed
+        if ($content === false) {
+            continue;  // Skip this iteration if fetching failed
+        }
         
         $newVendorHTML = '<li class="vendor" id="vendorpage_' . $vendorpage_id . '" data-rating="" data-stars="">';
         $newVendorHTML .= '<a class="vendorpage_link" href="/vendorpage/' . $vendor_name . '.html">';
@@ -318,16 +320,26 @@ if ($stmt->execute()) {
         $newVendorHTML .= '<div class="food_type"><p>' . htmlspecialchars($food_types_string) . '</p></div>';
         $newVendorHTML .= '</div></div></a></li>';
     
-        $updatedHomepageContent = str_replace(
+        // Assume you have the new vendor HTML content in $newVendorHTML
+        if ($content !== null && $filePath !== null) {
+            $updatedContent = str_replace(
             '<!-- New vendors will be added below -->',
             "<!-- New vendors will be added below -->\n" . $newVendorHTML,
-            $homepageContent
+            $content
         );
-    
-        file_put_contents($homepageFilePath, $updatedHomepageContent);
-        uploadToGithub($github_owner, $github_repo, $homepageFilePath, $updatedHomepageContent, $github_token);
+        
+        if ($filePath !== null) {
+            file_put_contents($filePath, $updatedContent);
+        } else {
+            error_log("filePath is null");
+        }
+        
+        uploadToGithub($github_owner, $github_repo, $filePath, $updatedContent, $github_token);
+    } else {
+        error_log("Either content or filePath is null");
     }
-} else {
+} 
+}else {
     die("Error: " . $stmt->error);
 }
 
